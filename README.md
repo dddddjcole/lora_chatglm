@@ -23,7 +23,7 @@ x += ‐ learning_rate * m / (np.sqrt(v) + eps)
 
 
 
-### 具体实现：![image-20230422160157927](C:\Users\Administrator\AppData\Roaming\Typora\typora-user-images\image-20230422160157927.png)
+### 具体实现：![image-1](image/image-1)
 
 根据上述内容得知，主要**矛盾点**在于想对模型整体进行微调又不想加载过多的参数，解决办法是构造一个和原来一样维度的矩阵
 
