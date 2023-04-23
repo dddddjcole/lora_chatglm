@@ -17,13 +17,13 @@ x += ‐ learning_rate * m / (np.sqrt(v) + eps)
 
 在Adam优化器中需要维护一个momentum(**m**)和一个variance(**v**)来更新参数，在使用Nvidia卡做运算的时候，通常会使用混合精度的方式。对于每一个参数**w**来说采用FP32来存贮，在前向传播中会把**w**复制一份并转为FP16以提高计算速度（神经网络中输入**x**和输出**y**均采用FP16）。综上，对于一个参数而言我们需要更新我们需要16个字节，四个字节**w**原始值，两个字节**w**复制，四个字节**m**，四个字节**v**，和两个字节的梯度。
 
-![Image text](https://github.com/dddddjcole/lora_chatglm/blob/main/image/image-1.png)
+![Image text](https://github.com/dddddjcole/lora_chatglm/blob/main/image/image-3.png)
 
 这时我们发现一个问题，我们保存一个模型的参数的时候，每个参数只需要四个字节，但是当我们更新的时候却需要维护16个字节的内存。**当我们想要对模型的整体进行微调的时候，就不得不加载过多的参数，为了解决这一问题Lora诞生了。**
 
 
 
-### 具体实现：![image-1](image/image-1)
+### 具体实现：![Image text](https://github.com/dddddjcole/lora_chatglm/blob/main/image/image-1.png)
 
 根据上述内容得知，主要**矛盾点**在于想对模型整体进行微调又不想加载过多的参数，解决办法是构造一个和原来一样维度的矩阵
 
@@ -37,7 +37,7 @@ $$
 
 这时构造了一个B矩阵和A矩阵，其中B矩阵时(r x d) ，A矩阵是（d x r）
 
-![image-20230422160819123](C:\Users\Administrator\AppData\Roaming\Typora\typora-user-images\image-20230422160819123.png)
+![Image text](https://github.com/dddddjcole/lora_chatglm/blob/main/image/image-2.png)
 $$
 W_0 +\Delta W=W_0+BA
 $$
